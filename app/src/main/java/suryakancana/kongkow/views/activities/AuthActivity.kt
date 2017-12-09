@@ -35,7 +35,7 @@ class AuthActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
         // init first fragment
         ft = fm.beginTransaction()
-        ft.add(R.id.fl_fragment_container, blankFragment)
+        ft.add(R.id.fl_fragment_container, loginFragment)
         ft.commit()
 
     }

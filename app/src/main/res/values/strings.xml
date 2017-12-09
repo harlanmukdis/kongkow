@@ -3,4 +3,9 @@
 
     <string name="permission_granted">Permission Granted!</string>
     <string name="permission_denied">Permission Denied!</string>
+
+    <string name="login_text_tv_forgot_password">Forgot password</string>
+    <string name="login_text_btn_login">Login</string>
+    <string name="login_hint_et_password">Password</string>
+    <string name="login_hint_et_email">Email</string>
 </resources>
