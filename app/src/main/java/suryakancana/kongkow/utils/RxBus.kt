@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
 /**
  * Created by LIMS on 09/12/2017.
  */
-object RxBus {
+class RxBus {
     private val bus = PublishSubject.create<Any>()
 
     fun send(@NonNull o: Any) {

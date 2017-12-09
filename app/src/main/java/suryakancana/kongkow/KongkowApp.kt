@@ -7,6 +7,7 @@ import android.location.Location
 import android.net.ConnectivityManager
 import com.google.android.gms.common.api.GoogleApiClient
 import com.orhanobut.hawk.Hawk
+import suryakancana.kongkow.data.remote.retrofit.RetrofitServiceFactory
 import suryakancana.kongkow.data.remote.retrofit.ServicesAPI
 
 
@@ -32,7 +33,7 @@ public class KongkowApp : Application() {
         super.onCreate()
 
         sApp = this
-//        mAPIService = RetrofitServiceFactory.createService(ServicesAPI::class.java)
+        mServiceAPI = RetrofitServiceFactory().createService(ServicesAPI::class.java)
         Hawk.init(applicationContext).build()
     }
 
