@@ -27,8 +27,8 @@ public class RetrofitServiceFactory {
     fun <S> createService(serviceClass: Class<S>): S {
         var sRetrofit: Retrofit? = null
         val authHeader: String
-        if (DataManager().can().userToken != null) {
-            authHeader = "Bearer " + DataManager().can().userToken
+        if (DataManager().can().getUserToken() != null) {
+            authHeader = "Bearer " + DataManager().can().getUserToken()
         } else {
             authHeader = ""
         }

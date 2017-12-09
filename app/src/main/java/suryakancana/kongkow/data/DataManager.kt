@@ -2,10 +2,15 @@ package suryakancana.kongkow.data
 
 import com.google.gson.JsonObject
 import io.reactivex.Maybe
+import io.reactivex.functions.Consumer
 import suryakancana.kongkow.data.local.UserStorage
 import suryakancana.kongkow.data.remote.AuthAPI
 import suryakancana.kongkow.data.remote.UserAPI
 import suryakancana.kongkow.models.User
+
+
+
+
 
 
 
@@ -29,25 +34,33 @@ import suryakancana.kongkow.models.User
     private val sUserAPI = UserAPI()
     private val sUserStorage = UserStorage()
 
-    override val userList: Maybe<List<User>>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-    override val userToken: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-
     override fun login(id: String, password: String): Maybe<JsonObject> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sAuthAPI.login(id, password)
     }
 
     override fun logout() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sAuthAPI.logout()
     }
 
     override fun forgotPassword(id: String): Maybe<JsonObject> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sAuthAPI.forgotPassword(id)
+    }
+
+    override fun getUserList(): Maybe<List<User>> {
+        return Maybe.concat(sUserStorage.list, sUserAPI.getList().doOnSuccess(object : Consumer<List<User>> {
+            @Throws(Exception::class)
+            override fun accept(users: List<User>) {
+                sUserStorage.addAll(users)
+            }
+        })).firstElement()
     }
 
     override fun getUser(id: Int?): Maybe<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.concat(sUserStorage.get(id!!), sUserStorage.get(id).doOnSuccess { user -> sUserStorage.add(user) }).firstElement()
+    }
+
+    override fun getUserToken(): String {
+        return sUserStorage.getToken()
     }
 
 }
