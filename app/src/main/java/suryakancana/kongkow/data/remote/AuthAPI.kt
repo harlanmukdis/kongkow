@@ -1,5 +1,7 @@
 package suryakancana.kongkow.data.remote
 
+import android.util.Log
+import android.widget.Toast
 import com.google.gson.JsonObject
 import io.reactivex.Maybe
 import suryakancana.kongkow.data.remote.constracts.Authentication
@@ -16,6 +18,7 @@ class AuthAPI : BaseAPI(), Authentication {
 
     override fun login(id: String, password: String): Maybe<JsonObject> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.e("Tes", "Tea2")
     }
 
     override fun logout() {}
