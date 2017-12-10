@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.google.gson.JsonObject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.view.*
 import suryakancana.kongkow.R
 import suryakancana.kongkow.data.DataManager
 import suryakancana.kongkow.utils.RetrofitErrorAdapter
@@ -39,41 +39,33 @@ class LoginFragment : BaseFragment() {
         initUI()
         initEvent()
 
+
+        val email = mView.loginEtEmail.text
+        val password = mView.loginEtPassword.text
+
+        mView.loginBtnLogin.setOnClickListener {
+            submitLogin(email.toString(), password.toString())
+        }
+
         return mView
     }
 
     override fun initUI() {
-
     }
 
     override fun initEvent() {
-        val email = loginEtEmail
-        val password = loginEtPassword
-
-//        getToas("$email, $password")
-//        submitLogin(email, password)
-
-
     }
 
     fun getToas(message : String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    fun submitLogin(email : String, password : String) {
+    private fun submitLogin(email : String, password : String) {
         DataManager().can().login(email, password)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Consumer<JsonObject> {
-                    @Throws(Exception::class)
-                    override fun accept(`object`: JsonObject) {
-                        getToas("Success")
-                    }
-                }, object : Consumer<Throwable> {
-                    @Throws(Exception::class)
-                    override fun accept(throwable: Throwable) {
-                        val error = RetrofitErrorAdapter(throwable)
-                        getToas(error.toString())
-                    }
+                .subscribe(Consumer<JsonObject> { getToas("Success") }, Consumer<Throwable> { throwable ->
+                    val error = RetrofitErrorAdapter(throwable)
+                    getToas(error.toString())
                 })
     }
 
